@@ -8,6 +8,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { HTTP } from '@ionic-native/http';
 import { AccountPage } from '../account/account';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { ItemSliding } from 'ionic-angular/components/item/item-sliding';
 
 /**
  * Generated class for the FeedPage page.
@@ -33,6 +34,7 @@ export class FeedPage {
   countElement: number = 0;       // кол-во элементов, которые мы получаем из запроса
   post_error: string;             // результат выполнения запроса 0-успешно, 1-ошибка
   token: any;
+  lastCount: any;
   
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public navParams: NavParams, 
     public alertCtrl: AlertController, private nativeStorage: NativeStorage, private http: HTTP,
@@ -60,6 +62,7 @@ export class FeedPage {
               setTimeout(() => {
                 this.postlists = JSON.parse(data.data)
                 this.countElement += this.postlists.length;
+                this.lastCount = this.postlists.length;
                 this.post_error = '0';          // Результат - успешно
                 loadingPopup.dismiss();         // Убираем окно загрузки
               }, 1000);
@@ -76,7 +79,7 @@ export class FeedPage {
 
   // Выполняется при пролистывании к последнему элементу списка
   doInfinite(infiniteScroll) {
-  if (this.countElement >= 10){
+  if (this.lastCount == 10){
     // this.loadData();
   let n = parseInt(this.pages) + 1 ;
     // Get the data
@@ -92,6 +95,7 @@ export class FeedPage {
             setTimeout(() => {
               this.postlists_new = JSON.parse(data.data)
               this.countElement += this.postlists_new.length;
+              this.lastCount = this.postlists_new.length;
   			      this.post_error = "0";
 
 			  for (let i = 0; i < this.countElement; i++) {
@@ -128,10 +132,17 @@ export class FeedPage {
     this.navCtrl.push(AccountPage);
   }
 
-  dislike() {
-
+  like(item: ItemSliding) {
+    item.close();
   }
-  share(link) {
+
+  dislike(item: ItemSliding) {
+
+    item.close();
+  }
+  share(link, item: ItemSliding) {
+    console.log(link)
     this.socialSharing.share(null, null, null, link)
+    item.close();
   }
 }

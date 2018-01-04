@@ -30,19 +30,53 @@
     </ion-refresher>
   
     <div *ngIf="post_error == '0'">
-        <ion-list>
-            <ion-item *ngFor="let post of postlists" class="listItem">
+        <!-- <ion-list>
+            <ion-item-sliding *ngFor="let post of postlists" class="listItem" #item>
               <ion-avatar item-start>
                 <img class="image" src="{{ post.TopImage }}">
               </ion-avatar>
+              <p class="source">{{ post.Source }}</p>
               <h2 class="title">{{ post.Title }}</h2>
               <p>{{ post.Text }}</p>
-              <p class="source">{{ post.Source }}</p>
-              <!-- <button ion-button icon-only (click)="share(post.Link)">
+              <ion-item-option side="left">
+                <button ion-button (click)="share(post.Link, item)">
                   <ion-icon ios="ios-share-outline" md="md-share"></ion-icon>
-                </button> -->
-              <button ion-button round color="lightred" class="disButton" (click)="dislike()">Ненравиться</button>
+                  Поделиться
+                </button>
+              </ion-item-option>
+              
+                <ion-item-option side="right">
+                  <button ion-button color="lightred" class="disButton" (click)="dislike()">Ненравиться</button>
+                </ion-item-option>
+            </ion-item-sliding>
+        </ion-list> -->
+
+        <ion-list>
+          <ion-item-sliding #item *ngFor="let post of postlists" class="listItem">
+            <ion-item>
+              <ion-avatar item-start>
+                <img class="image" src="{{ post.TopImage }}">
+              </ion-avatar>
+              <p class="source">{{ post.Source }}</p>
+              <h2 class="title">{{ post.Title }}</h2>
+              <p>{{ post.Text }}</p>
             </ion-item>
+            <ion-item-options side="left">
+              <button ion-button color="lightred" class="disButton" (click)="dislike(item)">
+                  <ion-icon name="close-circle-outline"></ion-icon>
+              </button>
+            </ion-item-options>
+        
+            <ion-item-options side="right">
+              <button ion-button color="success" class="shareButton" (click)="share(post.Link, item)">
+                <ion-icon ios="ios-share-outline" md="md-share"></ion-icon>
+              </button>
+
+              <button ion-button color="lightgreen" class="likeButton" (click)="like(item)">
+                  <ion-icon ios="ios-heart-outline" md="md-heart"></ion-icon>
+              </button>
+            </ion-item-options>
+          </ion-item-sliding>
         </ion-list>
     </div>
     

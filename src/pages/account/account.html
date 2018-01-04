@@ -24,10 +24,23 @@
         </ion-refresher-content>
     </ion-refresher>
 
-    <h4>Email: {{ account.Email }}</h4>
-    <h5>Пол: {{ account.Gender}}, Возраст: {{ account.Age }}</h5>
-    <h4>Темы:</h4>
-    <h5>{{ account.Tags }}</h5>
+    <p class="info">
+        Email: <span>{{ account.Email }}</span>
+    </p>
+    <p class="info">
+        Пол: <span>{{ account.Gender}}</span>
+    </p>
+    <p class="info">
+        Возраст: <span>{{ account.Age }}</span>
+    </p>
+
+    <p class="info">
+        Темы:
+    </p>
+    <p class="info">
+        <span>{{ account.Tags }}</span>
+    </p>
+    
 
     <button ion-button full round color="lightred" (click)="logout()">Выход</button>
 </ion-content>

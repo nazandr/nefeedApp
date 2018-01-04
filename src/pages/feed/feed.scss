@@ -1,6 +1,6 @@
 page-feed {
     .listItem {
-		padding: 5px;
+
 	}
 
 	.title {
@@ -15,7 +15,15 @@ page-feed {
 		font-size: 11px;
 		text-align: end;
 	}
+	
+	.shareButton {
+		width: 60px;
+	}
 
 	.disButton {
+		width: 60px;
+	}
+	.likeButton {
+		width: 60px;
 	}
 }
