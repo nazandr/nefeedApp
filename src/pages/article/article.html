@@ -7,7 +7,18 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>article</ion-title>
+    <ion-title></ion-title>
+    <ion-buttons end>
+        <button ion-button color="lightgreen" class="likeButton" (click)="like(article.Id, item)">
+            <ion-icon ios="ios-heart" md="md-heart"></ion-icon>
+        </button>
+        <button ion-button color="lightred" class="disButton" (click)="dislike(article.Id, item)">
+            <ion-icon name="close-circle"></ion-icon>
+        </button>
+        <button ion-button color="primary" class="shareButton" (click)="share(article.Link, item)">
+            <ion-icon ios="ios-share-outline" md="md-share"></ion-icon>
+          </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -15,4 +26,16 @@
 
 <ion-content padding>
 
+    <div *ngIf="pageError == '0'">
+      <h2>{{ article.Title }}</h2>
+      <div class="text" [innerHtml]="article.RawText"></div>
+    </div>
+
+    <div *ngIf="pageError == '1'">
+        <ion-label>Ошибка при получении данных</ion-label>
+        <button ion-button (click)="articleLoad(article.Id)" color="clmain" icon-left>
+        <ion-icon name="refresh"></ion-icon>
+        Обновить
+        </button>
+    </div>
 </ion-content>

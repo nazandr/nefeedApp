@@ -40,6 +40,14 @@
     <p class="info">
         <span>{{ account.Tags }}</span>
     </p>
+    <p class="info">
+        Непонравившиеся
+        <span>{{ account.DislikeNews}}</span>
+    </p>
+    <p class="info">
+            Понравившиеся
+            <span>{{ account.LikeNews}}</span>
+        </p>
     
 
     <button ion-button full round color="lightred" (click)="logout()">Выход</button>

@@ -9,6 +9,8 @@ import { HTTP } from '@ionic-native/http';
 import { AccountPage } from '../account/account';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { ItemSliding } from 'ionic-angular/components/item/item-sliding';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
+import { ArticlePage } from '../article/article';
 
 /**
  * Generated class for the FeedPage page.
@@ -18,6 +20,7 @@ import { ItemSliding } from 'ionic-angular/components/item/item-sliding';
  */
 
 let apiUrl = 'https://www.nefeed.ga/feed/';
+let url = 'https://www.nefeed.ga/'
 // let apiUrl = 'http://localhost:12345/feed/'
 
 @IonicPage()
@@ -38,7 +41,7 @@ export class FeedPage {
   
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public navParams: NavParams, 
     public alertCtrl: AlertController, private nativeStorage: NativeStorage, private http: HTTP,
-    private socialSharing: SocialSharing) {
+    private socialSharing: SocialSharing, public toastCtrl: ToastController) {
 	this.loadData(0);
   }
 
@@ -98,7 +101,7 @@ export class FeedPage {
               this.lastCount = this.postlists_new.length;
   			      this.post_error = "0";
 
-			  for (let i = 0; i < this.countElement; i++) {
+			  for (let i = 0; i < this.lastCount; i++) {
           this.postlists.push(this.postlists_new[i]);  // Добавили новые данные в основной массив публикаций
           ;
 			  }
@@ -132,16 +135,65 @@ export class FeedPage {
     this.navCtrl.push(AccountPage);
   }
 
-  like(item: ItemSliding) {
+  articleOpen(id) {
+    this.navCtrl.push(ArticlePage, {id: id})
+  }
+
+  like(id, item: ItemSliding) {
+    let toast = this.toastCtrl.create({
+      message: 'Новость добавлена как понравившаяся',
+      duration: 3000
+    });
+    
+    this.nativeStorage.getItem('token').then(
+      data => {
+      let headers ={
+        'auth': data['token'] 
+      }
+      this.http.post(url+'ratelike/' + id, {}, headers)
+        .then(
+          data => {
+            setTimeout(() => {
+              toast.present();
+            }, 1000);
+          },
+          err => {
+            console.log('like error', err)
+          }
+      );},
+      error => console.error(error)
+    )
     item.close();
   }
 
-  dislike(item: ItemSliding) {
-
+  dislike(id, item: ItemSliding) {
+    let toast = this.toastCtrl.create({
+      message: 'Новость добавлена как непонравившаяся',
+      duration: 3000
+    });
+    
+    this.nativeStorage.getItem('token').then(
+      data => {
+      let headers ={
+        'auth': data['token'] 
+      }
+      this.http.post(url+'ratedislike/' + id, {}, headers)
+        .then(
+          data => {
+            setTimeout(() => {
+              toast.present();
+            }, 1000);
+          },
+          err => {
+            console.log('dislike error', err)
+          }
+      );},
+      error => console.error(error)
+    )
     item.close();
   }
+  
   share(link, item: ItemSliding) {
-    console.log(link)
     this.socialSharing.share(null, null, null, link)
     item.close();
   }

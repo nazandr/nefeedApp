@@ -17,6 +17,7 @@ import { NativeStorage } from '@ionic-native/native-storage';
 import { HTTP } from '@ionic-native/http';
 import { AccountPage } from '../pages/account/account';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { ArticlePage } from '../pages/article/article';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     SignupPage,
     FeedPage,
     AccountPage,
+    ArticlePage,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,8 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     LoginPage,
     SignupPage,
     FeedPage,
-    AccountPage
+    AccountPage,
+    ArticlePage,
   ],
   providers: [
     StatusBar,
